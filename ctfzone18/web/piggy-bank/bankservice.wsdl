@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?><wsdl:definitions name="Bank"
+             targetNamespace="urn:Bank"
+             xmlns:tns="urn:Bank"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <message name="BalanceRequest">
+        <part name="wallet_num" type="xsd:decimal"/>
+    </message>
+
+    <message name="BalanceResponse">
+        <part name="code" type="xsd:float"/>
+        <part name="status" type="xsd:string"/>
+    </message>
+
+    <message name="internalTransferRequest">
+        <part name="receiver_wallet_num" type="xsd:decimal"/>
+        <part name="sender_wallet_num" type="xsd:decimal"/>
+        <part name="amount" type="xsd:float"/>
+        <part name="token" type="xsd:string"/>
+    </message>
+
+    <message name="internalTransferResponse">
+        <part name="code" type="xsd:float"/>
+        <part name="status" type="xsd:string"/>
+    </message>
+
+    <portType name="BankServicePort">
+        <operation name="requestBalance">
+            <input message="tns:BalanceRequest"/>
+            <output message="tns:BalanceResponse"/>
+        </operation>
+        <operation name="internalTransfer">
+            <input message="tns:internalTransferRequest"/>
+            <output message="tns:internalTransferResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="BankServiceBinding" type="tns:BankServicePort">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="requestBalance">
+            <soap:operation soapAction="urn:requestBalanceAction"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:Bank" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:Bank" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="internalTransfer">
+            <soap:operation soapAction="urn:internalTransferAction"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:Bank" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:Bank" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+
+    <wsdl:service name="BankService">
+        <wsdl:port name="BankServicePort" binding="tns:BankServiceBinding">
+            <soap:address location="http://web-05.v7frkwrfyhsjtbpfcppnu.ctfz.one/api/bankservice.php" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
