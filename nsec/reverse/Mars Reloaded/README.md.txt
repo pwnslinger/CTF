@@ -1,0 +1,1 @@
+Can you solve this reloaded version of a NorthSec challenge? All you have to do is find a cleared citizen ID to log in with...but be warned, it won't be easy. 
